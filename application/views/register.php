@@ -1,16 +1,14 @@
 <div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                 <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Input Pengguna Baru</h1>
-                            </div>
+        <!-- Card: Tutorial -->
+        <div class="col-lg-6">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="font-weight-bold text-primary text-uppercase mb-1">Input Pengguna Baru</div>
                             <?php echo validation_errors(); ?>
-
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
                             <form class="user" method="post" action="pengguna/simpanrekordbaru">
                                 <div class="form-group">
                                  <input type="text" name="idpengguna" class="form-control form-control-user" id="exampleFirstName" 
@@ -19,13 +17,15 @@
                                 </div>
                                 <div class="form-group">
                                  <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
-                                 <input type="password" name="konfirmasipassword" class="form-control form-control-user"
-                                 id="exampleRepeatPassword" placeholder="Ulangi ketik Passwordnya">
+                                </div>
+                                <div class="form-group">
+                                <input type="password" name="konfirmasipassword" class="form-control form-control-user"
+                                id="exampleRepeatPassword" placeholder="Ulangi ketik Passwordnya">
                                 </div>
                                 <input type="submit" name="bSimpan" value="Simpan Pengguna Baru" class="btn btn-primary btn-user btn-block">
                                 <hr>
                             </form>
-                            <hr>
+                            </div>
                         </div>
                     </div>
                 </div>

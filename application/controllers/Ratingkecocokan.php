@@ -77,25 +77,6 @@ class Ratingkecocokan extends CI_Controller
         }
     }
 
-    public function buatratingkecocokanbaru()
-    {
-        $this->load->helper('form');
-        $this->load->library('form_validation'); 
-        $this->form_validation->set_rules('idkriteria', 'Id Kriteria', 'required');
-        $this->form_validation->set_rules('idalternatife', 'Id Alternatif', 'required');
-        $this->form_validation->set_rules('nilairating', 'Nilai Rating', 'required');
-
-        if ($this->form_validation->run() === FALSE) {
-            $this->load->view('header');
-            $this->load->view('ratingkecocokan');
-            $this->load->view('footer');
-            redirect('ratingkecocokan');
-        } else {
-            $this->Modelratingkecocokan->simpanrekordratingkecocokan();
-            redirect('ratingkecocokan');
-        }
-    }
-
     public function hapusratingkecocokan($id)
     {
         $iddihapus = html_escape($this->security->xss_clean($id));
@@ -103,29 +84,63 @@ class Ratingkecocokan extends CI_Controller
         $this->db->delete('ratingkecocokan');
         redirect('ratingkecocokan');
     }
-
+    
     public function koreksiratingkecocokan($id)
+{
+    $this->load->helper('form');
+    $this->load->library('form_validation');
+
+    $this->form_validation->set_rules('idkriteria', 'Id Kriteria', 'required');
+    $this->form_validation->set_rules('idalternatife', 'Id Alternatif', 'required');
+    $this->form_validation->set_rules('nilairating', 'Nilai Rating', 'required|numeric');
+
+    if ($this->form_validation->run() === FALSE) {
+        $idrating = html_escape($this->security->xss_clean($id));
+        $data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan($idrating);
+        $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
+        $data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
+        $this->load->view('header');
+        $this->load->view('koreksiratingkecocokan', $data);
+        $this->load->view('footer');
+    } else {
+        $idkriteria = $this->input->post('idkriteria');
+        $idalternatife = $this->input->post('idalternatife');
+        $nilairating = $this->input->post('nilairating');
+        $namakriteria = $this->Modelratingkecocokan->getnamakriteria($idkriteria);
+
+        $this->Modelratingkecocokan->simpanhasilkoreksiratingkecocokan($id, $idkriteria, $idalternatife, $nilairating);
+        redirect('Ratingkecocokan');
+    }
+}
+    
+    public function buatratingkecocokanbaru()
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
-
+    
         $this->form_validation->set_rules('idkriteria', 'Id Kriteria', 'required');
         $this->form_validation->set_rules('idalternatife', 'Id Alternatif', 'required');
         $this->form_validation->set_rules('nilairating', 'Nilai Rating', 'required');
-
+    
         if ($this->form_validation->run() === FALSE) {
-            $idrating = html_escape($this->security->xss_clean($id));
-            $data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan($idrating);
             $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
             $data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
             $this->load->view('header');
-            $this->load->view('koreksiratingkecocokan', $data);
+            $this->load->view('buatratingkecocokanbaru', $data);
             $this->load->view('footer');
         } else {
-            $this->Modelratingkecocokan->simpanhasilkoreksiratingkecocokan();
+            $idkriteria = $this->input->post('idkriteria');
+            $nilairating = $this->input->post('nilairating');
+    
+            // Cek jika kriteria adalah hafalan Al-Qur'an
+            if ($idkriteria == 'kriteria_hafalan_alquran') {  // ganti 'kriteria_hafalan_alquran' dengan id kriteria hafalan Al-Qur'an sebenarnya
+                $nilairating = $nilairating / 30;
+            }
+    
+            $this->Modelratingkecocokan->simpanrekordratingkecocokan($idkriteria, $nilairating);
             redirect('ratingkecocokan');
         }
-    }
+    }    
 
     public function hapusall()
     {

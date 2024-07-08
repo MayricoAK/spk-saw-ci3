@@ -20,19 +20,20 @@
                             $this->session->unset_userdata('error');
                             ?>
                         <?php endif; ?>
-                        <form class="user" method="post" action="Ratingkecocokan/buatratingkecocokanbaru">
+                        <form class="user" method="post" action="Ratingkecocokan/buatratingkecocokanbaru" onsubmit="return convertHafalanAlquran()">
                             <table class="table">
                                 <tr>
                                     <td><label for="idkriteria">Pilih Kriteria</label></td>
                                     <td>
-                                        <select name="idkriteria" required>
+                                        <select id="idkriteria" name="idkriteria" required>
                                             <?php 
                                             if (!isset($_SESSION)) session_start();
                                             if (empty($_SESSION['pilikrit'])) $_SESSION['pilikrit']=0;
                                             if (empty($_SESSION['pilidat'])) $_SESSION['pilidat']=0;
                                             foreach ($pilidkriteria as $row) : ?>
                                                 <option value="<?php echo $row['idkriteria']; ?>"
-                                                <?php if($row['idkriteria'] == $_SESSION['pilikrit']) echo "selected"; ?>>
+                                                <?php if($row['idkriteria'] == $_SESSION['pilikrit']) echo "selected"; ?>
+                                                data-namakriteria="<?php echo $row['namakriteria']; ?>">
                                                     <?php echo $row['namakriteria']; ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -54,7 +55,7 @@
                                 </tr>
                                 <tr>
                                     <td><label for="nilairating">Nilai Rating</label></td>
-                                    <td><input type="text" name="nilairating" required placeholder="Isi nilainya"></td>
+                                    <td><input type="text" id="nilairating" name="nilairating" required placeholder="Isi nilainya"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
@@ -64,7 +65,6 @@
                             </table>
                             <hr>
                         </form>
-
                         <hr>
                     </div>
                 </div>
@@ -118,3 +118,26 @@
     </div>
 </div><!-- /.container-fluid -->
 </div><!-- End of Main Content -->
+<script>
+    function convertHafalanAlquran() {
+        const kriteriaSelect = document.getElementById('idkriteria');
+        const selectedOption = kriteriaSelect.options[kriteriaSelect.selectedIndex];
+        const namakriteria = selectedOption.getAttribute('data-namakriteria').toLowerCase();
+        const nilairatingInput = document.getElementById('nilairating');
+
+        if (namakriteria === 'hafalan alquran') {
+            const juz = parseFloat(nilairatingInput.value);
+            if (isNaN(juz) || juz < 0) {
+                alert('Masukkan nilai yang valid untuk hafalan Al-Qur\'an.');
+                return false;
+            }
+            if (juz > 30) {
+                alert('Nilai hafalan Al-Qur\'an tidak boleh melebihi 30.');
+                return false;
+            }
+            const convertedValue = juz / 30;
+            nilairatingInput.value = convertedValue.toFixed(2);
+        }
+        return true;
+    }
+</script>

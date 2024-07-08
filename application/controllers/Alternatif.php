@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Alternatif extends CI_Controller {
  public function __construct()
         {
-                parent::__construct();
-                $this->load->model('Modelalternatif');
-                $this->load->helper('url_helper');
+            parent::__construct();
+            $this->load->model('Modelalternatif');
+            $this->load->helper('url_helper');
         }
     public function index()
 	{

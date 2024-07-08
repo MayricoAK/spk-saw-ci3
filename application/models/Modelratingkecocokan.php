@@ -53,18 +53,30 @@ class Modelratingkecocokan extends CI_Model
         return $this->db->insert('ratingkecocokan', $data);
     }
 
-    public function simpanhasilkoreksiratingkecocokan()
+    public function simpanhasilkoreksiratingkecocokan($idrating, $idkriteria, $idalternatife, $nilairating)
     {
-        $idrating = $this->input->post('idrating');
         $data = array(
-            'idkriteria' => $this->input->post('idkriteria'),
-            'idalternatife' => $this->input->post('idalternatife'),
-            'nilairating' => $this->input->post('nilairating')
+            'idkriteria' => $idkriteria,
+            'idalternatife' => $idalternatife,
+            'nilairating' => $nilairating
         );
-
+    
+        // Log atau echo statement untuk debug
+        log_message('debug', 'Data Update: ' . print_r($data, true));
+        log_message('debug', 'ID Rating: ' . $idrating);
+    
         $this->db->where('idrating', $idrating);
-        return $this->db->update('ratingkecocokan', $data);
+        $this->db->update('ratingkecocokan', $data);
     }
+    
+    public function getnamakriteria($idkriteria)
+    {
+        $this->db->select('namakriteria');
+        $this->db->from('kriteria');
+        $this->db->where('idkriteria', $idkriteria);
+        $query = $this->db->get();
+        return $query->row()->namakriteria;
+    } 
 
     // Metode untuk mendapatkan total bobot preferensi
     public function getTotalBobotPreferensi()
