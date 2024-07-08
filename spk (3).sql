@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2024 at 01:26 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.0.19
+-- Generation Time: Jul 08, 2024 at 03:21 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,23 +24,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `atribut`
+-- Table structure for table `alternatif`
 --
 
-CREATE TABLE `atribut` (
-  `idatribute` int(3) NOT NULL,
-  `namaatribut` varchar(35) NOT NULL,
-  `nilaipreferensi` int(11) DEFAULT NULL
+CREATE TABLE `alternatif` (
+  `idalternatife` int(3) NOT NULL,
+  `namaalternatif` varchar(35) NOT NULL,
+  `nilaipreferensi` double(7,3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `atribut`
+-- Dumping data for table `alternatif`
 --
 
-INSERT INTO `atribut` (`idatribute`, `namaatribut`, `nilaipreferensi`) VALUES
-(7, 'A1', NULL),
-(8, 'A2', NULL),
-(9, 'A3', NULL);
+INSERT INTO `alternatif` (`idalternatife`, `namaalternatif`, `nilaipreferensi`) VALUES
+(1, 'araz', 0.920),
+(2, 'xavier', 0.758),
+(3, 'garit', 1.000);
 
 -- --------------------------------------------------------
 
@@ -61,11 +61,10 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`idkriteria`, `namakriteria`, `bobotpreferensi`, `nilaiNormalisasi`, `jeniskriteria`) VALUES
-(1, 'Ijazah', 20.00, NULL, 2),
-(2, 'Sertifikasi', 20.00, NULL, 2),
-(3, 'Absen', 20.00, NULL, 2),
-(4, 'Kedisiplinan', 20.00, NULL, 2),
-(5, 'Tanggung Jawab', 20.00, NULL, 2);
+(1, 'hafalan alquran', 0.25, NULL, 2),
+(2, 'pelafalan makhroj', 0.25, NULL, 2),
+(3, 'penerapan kaedah kaedah tajwid', 0.25, NULL, 2),
+(4, 'Sifat-sifat huruf Hijaiyah ', 0.25, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -95,7 +94,7 @@ INSERT INTO `pengguna` (`idpengguna`, `password`) VALUES
 CREATE TABLE `ratingkecocokan` (
   `idrating` int(5) NOT NULL,
   `idkriteria` int(3) NOT NULL,
-  `idatribute` int(3) NOT NULL,
+  `idalternatife` int(3) NOT NULL,
   `nilairating` double(7,2) DEFAULT NULL,
   `nilainormalisasi` double(7,2) DEFAULT NULL,
   `bobotnormalisasi` double(7,2) DEFAULT NULL
@@ -105,32 +104,29 @@ CREATE TABLE `ratingkecocokan` (
 -- Dumping data for table `ratingkecocokan`
 --
 
-INSERT INTO `ratingkecocokan` (`idrating`, `idkriteria`, `idatribute`, `nilairating`, `nilainormalisasi`, `bobotnormalisasi`) VALUES
-(1, 1, 7, 70.00, 0.88, NULL),
-(2, 1, 8, 80.00, 1.00, NULL),
-(3, 1, 9, 60.00, 0.75, NULL),
-(4, 2, 7, 60.00, 0.86, NULL),
-(5, 2, 8, 70.00, 1.00, NULL),
-(6, 2, 9, 50.00, 0.71, NULL),
-(7, 3, 7, 80.00, 1.00, NULL),
-(8, 3, 8, 70.00, 0.88, NULL),
-(9, 3, 9, 80.00, 1.00, NULL),
-(10, 4, 7, 50.00, 0.62, NULL),
-(11, 4, 8, 80.00, 1.00, NULL),
-(12, 4, 9, 80.00, 1.00, NULL),
-(14, 5, 8, 50.00, 0.71, NULL),
-(15, 5, 9, 70.00, 1.00, NULL),
-(17, 5, 7, 70.00, 1.00, NULL);
+INSERT INTO `ratingkecocokan` (`idrating`, `idkriteria`, `idalternatife`, `nilairating`, `nilainormalisasi`, `bobotnormalisasi`) VALUES
+(5, 1, 1, 0.03, 0.75, NULL),
+(6, 2, 1, 0.28, 0.93, NULL),
+(7, 3, 1, 0.27, 1.00, NULL),
+(8, 4, 1, 0.27, 1.00, NULL),
+(9, 1, 2, 0.01, 0.25, NULL),
+(10, 2, 2, 0.30, 1.00, NULL),
+(11, 3, 2, 0.24, 0.89, NULL),
+(12, 4, 2, 0.24, 0.89, NULL),
+(13, 1, 3, 0.04, 1.00, NULL),
+(14, 2, 3, 0.30, 1.00, NULL),
+(15, 3, 3, 0.27, 1.00, NULL),
+(16, 4, 3, 0.27, 1.00, NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `atribut`
+-- Indexes for table `alternatif`
 --
-ALTER TABLE `atribut`
-  ADD PRIMARY KEY (`idatribute`);
+ALTER TABLE `alternatif`
+  ADD PRIMARY KEY (`idalternatife`);
 
 --
 -- Indexes for table `kriteria`
@@ -155,22 +151,22 @@ ALTER TABLE `ratingkecocokan`
 --
 
 --
--- AUTO_INCREMENT for table `atribut`
+-- AUTO_INCREMENT for table `alternatif`
 --
-ALTER TABLE `atribut`
-  MODIFY `idatribute` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `alternatif`
+  MODIFY `idalternatife` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `idkriteria` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idkriteria` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ratingkecocokan`
 --
 ALTER TABLE `ratingkecocokan`
-  MODIFY `idrating` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idrating` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

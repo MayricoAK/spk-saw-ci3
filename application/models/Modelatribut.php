@@ -1,10 +1,10 @@
 <?php
 class Modelatribut extends CI_Model {
-
         public function __construct()
         {
                 $this->load->database();
         }
+
         public function getatribut($idatribute = FALSE)
         {
         if ($idatribute === FALSE)
@@ -16,6 +16,7 @@ class Modelatribut extends CI_Model {
         $query = $this->db->get_where('atribut', array('idatribute' => $idatribute));
         return $query->row_array();
         }
+
         public function simpankanrekordbarunya()
         {
             $this->load->helper('url');
@@ -24,6 +25,7 @@ class Modelatribut extends CI_Model {
             );
             return $this->db->insert('atribut', $data);
         }
+
         public function simpanrekordkoreksinya()
         {
             $this->load->helper('url');
@@ -33,5 +35,11 @@ class Modelatribut extends CI_Model {
             );
             $this->db->where('idatribute', $id);
             return $this->db->update('atribut', $data);
+        }
+
+        public function updateNilaiPreferensi($idatribute, $nilaipreferensi)
+        {
+                $this->db->where('idatribute', $idatribute);
+                $this->db->update('atribut', array('nilaipreferensi' => $nilaipreferensi));
         }
 }

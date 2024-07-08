@@ -21,7 +21,7 @@
                                  <input type="password" name="konfirmasipassword" class="form-control form-control-user"
                                  id="exampleRepeatPassword" placeholder="Ulangi ketik Passwordnya">
                                 </div>
-                                <input type="submit" name="bSimpan" value="Simpan Pengguna Baru" class="btn btn-primary btn-user btn-block">
+                                <input type="submit" name="bSimpan" value="Simpan" class="btn btn-primary btn-user btn-block">
                                 <hr>
                             </form>
                             <hr>

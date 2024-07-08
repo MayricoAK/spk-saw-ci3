@@ -23,21 +23,21 @@ class Modelratingkecocokan extends CI_Model
         return $query->result_array();
     }
 
-    public function getpilihanatribut()
+    public function getpilihanalternatif()
     {
-        $query = $this->db->get('atribut');
+        $query = $this->db->get('alternatif');
         return $query->result_array();
     }
 
     public function simpanrekordratingkecocokan()
     {
         $idkriteria = $this->input->post('idkriteria');
-        $idatribute = $this->input->post('idatribute');
+        $idalternatife = $this->input->post('idalternatife');
         $nilairating = $this->input->post('nilairating');
 
-        // Cek apakah kombinasi idkriteria dan idatribute sudah ada
+        // Cek apakah kombinasi idkriteria dan idalternatife sudah ada
         $this->db->where('idkriteria', $idkriteria);
-        $this->db->where('idatribute', $idatribute);
+        $this->db->where('idalternatife', $idalternatife);
         $query = $this->db->get('ratingkecocokan');
 
         if ($query->num_rows() > 0) {
@@ -46,7 +46,7 @@ class Modelratingkecocokan extends CI_Model
 
         $data = array(
             'idkriteria' => $idkriteria,
-            'idatribute' => $idatribute,
+            'idalternatife' => $idalternatife,
             'nilairating' => $nilairating
         );
 
@@ -58,7 +58,7 @@ class Modelratingkecocokan extends CI_Model
         $idrating = $this->input->post('idrating');
         $data = array(
             'idkriteria' => $this->input->post('idkriteria'),
-            'idatribute' => $this->input->post('idatribute'),
+            'idalternatife' => $this->input->post('idalternatife'),
             'nilairating' => $this->input->post('nilairating')
         );
 

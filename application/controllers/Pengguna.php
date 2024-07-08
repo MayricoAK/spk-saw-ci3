@@ -9,7 +9,7 @@ class Pengguna extends CI_Controller
         parent::__construct();
         $this->load->model('Modelpengguna');
         $this->load->model('Modelkriteria');
-		$this->load->model('Modelatribut');
+		$this->load->model('Modelalternatif');
         $this->load->helper('url_helper');
     }
     public function index()

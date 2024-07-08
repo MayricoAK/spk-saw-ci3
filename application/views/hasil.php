@@ -11,7 +11,7 @@
                     <thead>
                         <tr>
                             <th>Rank</th>
-                            <th>Atribut</th>
+                            <th>Alternatif</th>
                             <th>Nilai Akhir</th>
                         </tr>
                     </thead>
@@ -19,16 +19,16 @@
                         <?php foreach ($rangking as $rank => $item) : ?>
                             <tr>
                                 <td><?php echo $rank + 1; ?></td>
-                                <td><?php echo $item['namaatribut']; ?></td>
+                                <td><?php echo $item['namaalternatif']; ?></td>
                                 <td><?php echo $item['nilaiakhir']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                Dengan demikain urutan ranking rekomendasi adalah : <br>
+                Dengan demikain urutan rangking rekomendasi adalah : <br>
                 <?php $nmr=1;
 				foreach ($rangking as $rank) { 
-				echo $nmr++.'. '.$rank['namaatribut'].' dengan Nilai '
+				echo $nmr++.'. '.$rank['namaalternatif'].' dengan Nilai '
 				.$rank['nilaiakhir'].'<br>';
 				};
 				?>

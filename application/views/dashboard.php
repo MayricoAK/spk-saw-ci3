@@ -14,13 +14,13 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="font-weight-bold text-primary text-uppercase mb-1">Tutorial menggunakan</div>
+                            <div class="font-weight-bold text-primary text-uppercase mb-1">Langkah-langkah perhitungan</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <ol>
-                                    <li>Masukkan data atribut dan kriteria.</li>
+                                    <li>Masukkan data alternatif dan kriteria.</li>
                                     <li>Masukkan bobot pada masing-masing kriteria yang ada.</li>
-                                    <li>Masukkan rating atau penilaian terhadap kriteria atribut dan masuk ke halaman Normalisasi Matriks.</li>
-                                    <li>Klik tombol perangkingan.</li>
+                                    <li>Masukkan rating atau penilaian terhadap kriteria alternatif dan klik Normalisasi Matriks.</li>
+                                    <li>Pada halaman Normalisasi Matriks, Klik tombol perangkingan.</li>
                                 </ol>
                             </div>
                         </div>
@@ -29,31 +29,31 @@
             </div>
         </div>
 
-        <!-- Tabel Atribut -->
+        <!-- Tabel Alternatif -->
         <div class="col-xl-4 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
-                    <h5 class="card-title">Tabel Atribut</h5>
+                    <h5 class="card-title">Tabel Alternatif</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="tableAtribut" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="tableAlternatif" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nama Atribut</th>
+                                    <th>Nama Alternatif</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $num = 1; foreach ($itematribut as $row): ?>
+                                <?php $num = 1; foreach ($itemalternatif as $row): ?>
                                     <tr>
                                         <td><?php echo $num++; ?></td>
-                                        <td><?php echo $row['namaatribut']; ?></td>
+                                        <td><?php echo $row['namaalternatif']; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-                    <a href="<?= base_url();?>atribut" class="btn btn-primary mt-3">
-                        Halaman Atribut
+                    <a href="<?= base_url();?>alternatif" class="btn btn-primary mt-3">
+                        Halaman Alternatif
                     </a>
                 </div>
             </div>

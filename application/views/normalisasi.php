@@ -10,25 +10,25 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Atribut</th>
+                            <th>Alternatif</th>
                             <?php foreach ($pilidkriteria as $r) : ?>
                                 <th><?php echo $r['namakriteria']; ?></th>
                             <?php endforeach; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($pilidatribut as $atribut) : ?>
+                        <?php foreach ($pilidalternatif as $alternatif) : ?>
                             <tr>
-                                <td><?php echo $atribut['namaatribut']; ?></td>
+                                <td><?php echo $alternatif['namaalternatif']; ?></td>
                                 <?php foreach ($pilidkriteria as $kriteria) : ?>
                                     <?php
-                                    // Cari data normalisasi berdasarkan idatribut dan idkriteria
-                                    $idatribute = $atribut['idatribute'];
+                                    // Cari data normalisasi berdasarkan idalternatif dan idkriteria
+                                    $idalternatife = $alternatif['idalternatife'];
                                     $idkriteria = $kriteria['idkriteria'];
                                     $nilaiNormalisasi = null;
 
                                     foreach ($itemratingkecocokan as $rating) {
-                                        if ($rating['idatribute'] == $idatribute && $rating['idkriteria'] == $idkriteria) {
+                                        if ($rating['idalternatife'] == $idalternatife && $rating['idkriteria'] == $idkriteria) {
                                             $nilaiNormalisasi = $rating['nilainormalisasi'];
                                             break;
                                         }

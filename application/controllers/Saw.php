@@ -6,9 +6,11 @@ class Saw extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Modelsaw');
+		$this->load->model('Modelalternatif');
 		$this->load->model('Modelratingkecocokan');
         $this->load->helper('url_helper');
     }
+
 	public function index()
 	{
 		$this->load->view('header');
@@ -16,21 +18,28 @@ class Saw extends CI_Controller
 		$this->Modelsaw->hitungratingkecocokan();
 		$data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan();
         $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
-        $data['pilidatribut'] = $this->Modelratingkecocokan->getpilihanatribut();
+        $data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
 		$data['normalisasi'] = $this->Modelsaw->get_normalisasi();
 
         $this->load->view('normalisasi', $data);
 		$this->load->view('footer');
 	}
+
 	public function hasil()
 	{
 		$data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan();
-        $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
-        $data['pilidatribut'] = $this->Modelratingkecocokan->getpilihanatribut();
-		$data['rangking']=$this->Modelsaw->lakukanperangkingan();
-		
+		$data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
+		$data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
+		$data['rangking'] = $this->Modelsaw->lakukanperangkingan();
+
+		// Tambahkan fungsi untuk menyimpan nilai akhir dari return lakukanperangkingan
+		foreach ($data['rangking'] as $item) {
+			$this->Modelalternatif->updateNilaiPreferensi($item['idalternatife'], $item['nilaiakhir']);
+		}
+
 		$this->load->view('header');
-		$this->load->view('hasil',$data);
+		$this->load->view('hasil', $data);
 		$this->load->view('footer');
 	}
+
 }

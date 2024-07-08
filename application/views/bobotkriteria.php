@@ -33,43 +33,49 @@
             ?>
         <?php endif; ?>
 
-            <div class="table-responsive">
-                <form method="post" action="<?php echo base_url();?>kriteria/bobot">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <?php foreach ($itemkriteria as $r) : ?>
-                                    <th><?php echo $r['namakriteria']; ?></th>
-                                <?php endforeach ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Jenis dan Bobot Nilai Kriteria</td>
-                                <?php foreach ($itemkriteria as $ra) : ?>
-                                    <td>
-                                        <input type="hidden" value="<?php echo $ra['idkriteria'];?>" name="idkriteria[]">
-                                        <select name="jeniskriteria[]" required>
-                                            <option value="1" <?php if ($ra['jeniskriteria']=='1') echo 'Selected';?>>Cost</option>
-                                            <option value="2" <?php if ($ra['jeniskriteria']=='2') echo 'Selected';?>>Benefit</option>
-                                        </select>
-                                        <input type="number" step="0.01" value="<?php echo $ra['bobotpreferensi'];?>" name="bobotharapan[]" required>
-                                    </td>
-                                <?php endforeach; ?>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th></th>
-                                <th colspan="<?php echo count($itemkriteria); ?>">
-                                    <input type="submit" value="Simpan Nilai Bobot" name="bSimpanBobot" class="btn btn-primary">
-                                </th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </form>
-            </div>
+        <div class="table-responsive">
+            <form method="post" action="<?php echo base_url();?>kriteria/bobot">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kriteria</th>
+                            <th>Jenis Kriteria</th>
+                            <th>Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <?php $num=1;foreach ($itemkriteria as $ra) : ?>
+                        <tr>
+                            <input type="hidden" value="<?php echo $ra['idkriteria'];?>" name="idkriteria[]">
+                            <td><?php echo $num++; ?></td>
+                            <td><?php echo $ra['namakriteria']; ?></td>
+                            <td>
+                                <select name="jeniskriteria[]" required>
+                                    <option value="1" <?php if ($ra['jeniskriteria']=='1') echo 'selected';?>>Cost</option>
+                                    <option value="2" <?php if ($ra['jeniskriteria']=='2') echo 'selected';?>>Benefit</option>
+                                </select>
+                            </td>
+                            <td>
+                            <input type="number" step="0.01" value="<?php echo $ra['bobotpreferensi'];?>" name="bobotharapan[]" required>
+                            </td>
+                            
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th colspan="<?php echo count($itemkriteria); ?>">
+                                <input type="submit" value="Simpan Nilai Bobot" name="bSimpanBobot" class="btn btn-primary">
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+
         </div>
     </div>
 </div><!-- /.container-fluid -->

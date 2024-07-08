@@ -10,7 +10,7 @@ class Modelkriteria extends CI_Model {
     {
         if ($idkriteria === FALSE)
         {
-            $this->db->order_by('idkriteria', 'ASC');
+            $this->db->order_by('idkriteria', 'desc');
             $query = $this->db->get('kriteria');
             return $query->result_array();
         }

@@ -14,7 +14,7 @@ class Ratingkecocokan extends CI_Controller
     {
         $data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan();
         $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
-        $data['pilidatribut'] = $this->Modelratingkecocokan->getpilihanatribut();
+        $data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
         $this->load->view('header');
         $this->load->view('ratingkecocokan', $data);
         $this->load->view('footer');
@@ -82,7 +82,7 @@ class Ratingkecocokan extends CI_Controller
         $this->load->helper('form');
         $this->load->library('form_validation'); 
         $this->form_validation->set_rules('idkriteria', 'Id Kriteria', 'required');
-        $this->form_validation->set_rules('idatribute', 'Id Atribut', 'required');
+        $this->form_validation->set_rules('idalternatife', 'Id Alternatif', 'required');
         $this->form_validation->set_rules('nilairating', 'Nilai Rating', 'required');
 
         if ($this->form_validation->run() === FALSE) {
@@ -110,14 +110,14 @@ class Ratingkecocokan extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('idkriteria', 'Id Kriteria', 'required');
-        $this->form_validation->set_rules('idatribute', 'Id Atribut', 'required');
+        $this->form_validation->set_rules('idalternatife', 'Id Alternatif', 'required');
         $this->form_validation->set_rules('nilairating', 'Nilai Rating', 'required');
 
         if ($this->form_validation->run() === FALSE) {
             $idrating = html_escape($this->security->xss_clean($id));
             $data['itemratingkecocokan'] = $this->Modelratingkecocokan->getratingkecocokan($idrating);
             $data['pilidkriteria'] = $this->Modelratingkecocokan->getpilihankriteria();
-            $data['pilidatribut'] = $this->Modelratingkecocokan->getpilihanatribut();
+            $data['pilidalternatif'] = $this->Modelratingkecocokan->getpilihanalternatif();
             $this->load->view('header');
             $this->load->view('koreksiratingkecocokan', $data);
             $this->load->view('footer');

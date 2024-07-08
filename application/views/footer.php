@@ -2,7 +2,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Sistem Pendukung Keputusan Metode SAW &copy; 2024</span>
+                        <span>Copyright &copy; 2024</span>
                     </div>
                 </div>
             </footer>

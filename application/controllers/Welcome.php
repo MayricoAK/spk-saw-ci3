@@ -24,16 +24,13 @@ class Welcome extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Modelkriteria');
-		$this->load->model('Modelatribut');
+		$this->load->model('Modelalternatif');
         $this->load->helper('url_helper');
     }
 	public function index()
 	{
 
 		if (isset($_SESSION['_userid'])) {
-			// $this->load->view('header');
-			// $this->load->view('dashboard');
-			// $this->load->view('footer');
 			redirect('Welcome/dashboard');
 		} else {
 			$this->load->view('login');
@@ -42,7 +39,7 @@ class Welcome extends CI_Controller
 	public function dashboard()
     {
         $data['itemkriteria'] = $this->Modelkriteria->getkriteria();
-        $data['itematribut'] = $this->Modelatribut->getatribut();
+        $data['itemalternatif'] = $this->Modelalternatif->getalternatif();
 
         if (isset($_SESSION['_userid'])) {
             $this->load->view('header');

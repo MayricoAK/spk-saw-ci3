@@ -9,47 +9,46 @@ class Modelsaw extends CI_Model
     }
 
     public function hitungratingkecocokan()
-{
-    // Mengambil semua data kriteria
-    $kriteriaQuery = $this->db->get('kriteria');
-    $kriterias = $kriteriaQuery->result_array();
+    {
+        // Mengambil semua data kriteria
+        $kriteriaQuery = $this->db->get('kriteria');
+        $kriterias = $kriteriaQuery->result_array();
 
-    foreach ($kriterias as $kriteria) {
-        $idkriteria = $kriteria['idkriteria'];
-        $jeniskriteria = $kriteria['jeniskriteria'];
+        foreach ($kriterias as $kriteria) {
+            $idkriteria = $kriteria['idkriteria'];
+            $jeniskriteria = $kriteria['jeniskriteria'];
 
-        // Mengambil semua data rating kecocokan untuk kriteria tertentu
-        $this->db->where('idkriteria', $idkriteria);
-        $ratingQuery = $this->db->get('ratingkecocokan');
-        $ratings = $ratingQuery->result_array();
+            // Mengambil semua data rating kecocokan untuk kriteria tertentu
+            $this->db->where('idkriteria', $idkriteria);
+            $ratingQuery = $this->db->get('ratingkecocokan');
+            $ratings = $ratingQuery->result_array();
 
-        // Menghitung nilai normalisasi
-        if ($jeniskriteria == 1) {
-            // Cost criteria: normalisasi menggunakan nilai minimum
-            $minValue = min(array_column($ratings, 'nilairating'));
+            // Menghitung nilai normalisasi
+            if ($jeniskriteria == 1) {
+                // Cost criteria: normalisasi menggunakan nilai minimum
+                $minValue = min(array_column($ratings, 'nilairating'));
 
-            foreach ($ratings as $rating) {
-                $nilaiNormalisasi = $minValue / $rating['nilairating'];
+                foreach ($ratings as $rating) {
+                    $nilaiNormalisasi = $minValue / $rating['nilairating'];
 
-                // Update nilai normalisasi pada tabel ratingkecocokan
-                $this->db->where('idrating', $rating['idrating']);
-                $this->db->update('ratingkecocokan', ['nilainormalisasi' => $nilaiNormalisasi]);
-            }
-        } else {
-            // Benefit criteria: normalisasi menggunakan nilai maksimum
-            $maxValue = max(array_column($ratings, 'nilairating'));
+                    // Update nilai normalisasi pada tabel ratingkecocokan
+                    $this->db->where('idrating', $rating['idrating']);
+                    $this->db->update('ratingkecocokan', ['nilainormalisasi' => $nilaiNormalisasi]);
+                }
+            } else {
+                // Benefit criteria: normalisasi menggunakan nilai maksimum
+                $maxValue = max(array_column($ratings, 'nilairating'));
 
-            foreach ($ratings as $rating) {
-                $nilaiNormalisasi = $rating['nilairating'] / $maxValue;
+                foreach ($ratings as $rating) {
+                    $nilaiNormalisasi = $rating['nilairating'] / $maxValue;
 
-                // Update nilai normalisasi pada tabel ratingkecocokan
-                $this->db->where('idrating', $rating['idrating']);
-                $this->db->update('ratingkecocokan', ['nilainormalisasi' => $nilaiNormalisasi]);
+                    // Update nilai normalisasi pada tabel ratingkecocokan
+                    $this->db->where('idrating', $rating['idrating']);
+                    $this->db->update('ratingkecocokan', ['nilainormalisasi' => $nilaiNormalisasi]);
+                }
             }
         }
     }
-}
-
 
     // Metode untuk mengambil data normalisasi
     public function get_normalisasi()
@@ -58,11 +57,10 @@ class Modelsaw extends CI_Model
         return $query->result_array();
     }
 
-    // Metode untuk melakukan perangkingan
     public function lakukanperangkingan()
     {
         // Ambil data normalisasi dan bobot preferensi
-        $this->db->select('kriteria.idkriteria, kriteria.bobotpreferensi, ratingkecocokan.idatribute, ratingkecocokan.nilainormalisasi');
+        $this->db->select('kriteria.idkriteria, kriteria.bobotpreferensi, ratingkecocokan.idalternatife, ratingkecocokan.nilainormalisasi');
         $this->db->from('kriteria');
         $this->db->join('ratingkecocokan', 'kriteria.idkriteria = ratingkecocokan.idkriteria');
         $query = $this->db->get();
@@ -71,29 +69,35 @@ class Modelsaw extends CI_Model
         // Hitung nilai akhir
         $nilaiAkhir = array();
         foreach ($result as $row) {
-            $idatribute = $row['idatribute'];
+            $idalternatife = $row['idalternatife'];
             $nilaiNormalisasi = $row['nilainormalisasi'];
             $bobotPreferensi = $row['bobotpreferensi'];
 
-            if (!isset($nilaiAkhir[$idatribute])) {
-                $nilaiAkhir[$idatribute] = 0;
+            if (!isset($nilaiAkhir[$idalternatife])) {
+                $nilaiAkhir[$idalternatife] = 0;
             }
 
-            $nilaiAkhir[$idatribute] += $nilaiNormalisasi * $bobotPreferensi;
+            $nilaiAkhir[$idalternatife] += $nilaiNormalisasi * $bobotPreferensi;
         }
 
-        // Ambil nama atribut
-        $this->db->select('idatribute, namaatribut');
-        $query = $this->db->get('atribut');
-        $atributs = $query->result_array();
-        $namaAtribut = array_column($atributs, 'namaatribut', 'idatribute');
+        // Simpan nilai akhir ke tabel alternatif
+        foreach ($nilaiAkhir as $idalternatife => $nilai) {
+            $this->db->where('idalternatife', $idalternatife);
+            $this->db->update('alternatif', array('nilaipreferensi' => $nilai));
+        }
+
+        // Ambil nama alternatif
+        $this->db->select('idalternatife, namaalternatif');
+        $query = $this->db->get('alternatif');
+        $alternatifs = $query->result_array();
+        $namaalternatif = array_column($alternatifs, 'namaalternatif', 'idalternatife');
 
         // Siapkan data rangking
         $rangking = array();
-        foreach ($nilaiAkhir as $idatribute => $nilai) {
+        foreach ($nilaiAkhir as $idalternatife => $nilai) {
             $rangking[] = array(
-                'idatribute' => $idatribute,
-                'namaatribut' => $namaAtribut[$idatribute],
+                'idalternatife' => $idalternatife,
+                'namaalternatif' => $namaalternatif[$idalternatife] ?? 'Unknown',
                 'nilaiakhir' => $nilai
             );
         }
@@ -106,4 +110,3 @@ class Modelsaw extends CI_Model
         return $rangking;
     }
 }
-?>
